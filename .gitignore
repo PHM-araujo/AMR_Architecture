@@ -1,0 +1,41 @@
+# Ignorar diretórios de compilação
+/build/
+/Debug/
+/Release/
+
+# Ignorar arquivos binários
+*.bin
+*.elf
+*.hex
+
+# Ignorar arquivos de log e temporários
+*.log
+*.temp
+
+# Ignorar arquivos gerados pelo STM32CubeIDE
+*.ioc
+.mxproject
+.mxfile
+.project
+.cproject
+.settings/
+
+# Ignorar arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de configuração de ferramentas de controle de versão
+.vscode/
+.idea/
+
+# Ignorar arquivos temporários do editor
+*~
+
+# Ignorar outros arquivos indesejados
+*.swp
+*.bak
+*.d
+
+# Ignorar arquivos de dependências e configuração do Makefile
+Makefile
+*.mk
