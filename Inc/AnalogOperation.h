@@ -1,10 +1,3 @@
-/*
- * AnalogRead.h
- *
- *  Created on: Jun 9, 2024
- *      Author: lucas
- */
-
 #ifndef ANALOGOPERATION_H_
 #define ANALOGOPERATION_H_
 
@@ -12,6 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
+namespace analog {
 
 class AnalogOperation {
 public:
@@ -20,6 +14,8 @@ public:
 	auto Read() -> std::optional<uint32_t>;
 
 	auto Write(const float & value) -> bool;
+
+	static auto ExamplePotenciometro() -> void;
 
 private:
 	auto LowLevelRead() -> std::optional<uint32_t>;
@@ -34,5 +30,7 @@ private:
 
 	unsigned int pin_;
 };
+
+}
 
 #endif /* ANALOGOPERATION_H_ */

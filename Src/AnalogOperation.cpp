@@ -1,86 +1,87 @@
 #include "AnalogOperation.h"
 
+namespace analog {
+
 namespace {
-#define MAX_CHANNEL_SUPPORT			20
-#define FLASH_SIZE					0x1FFF7A22
-#define RCC_AHB1					0x40023800
+
+constexpr auto MAX_CHANNEL_SUPPORT = 20;
+constexpr auto FLASH_SIZE = 0x1FFF7A22;
+constexpr auto RCC_AHB1 = 0x40023800;
+constexpr auto GPIOA_BASE = 0x40020000;
+constexpr auto GPIOB_BASE = 0x40020400;
+constexpr auto RCC_BASE = 0x40023800;
+constexpr auto ADC1_BASE = 0x40012000;
+constexpr auto ADC2_BASE = 0x40012100;
+constexpr auto GPIO_MODER_OFFSET = 0x00;
+constexpr auto RCC_AHB1ENR_OFFSET = 0x30;
+constexpr auto RCC_APB2ENR_OFFSET = 0x44;
+constexpr auto ADC_SR_OFFSET = 0x00;
+constexpr auto ADC_CR1_OFFSET = 0x04;
+constexpr auto ADC_CR2_OFFSET = 0x08;
+constexpr auto ADC_SMPR1_OFFSET = 0x0C;
+constexpr auto ADC_SMPR2_OFFSET = 0x10;
+constexpr auto ADC_SQR1_OFFSET = 0x2C;
+constexpr auto ADC_SQR3_OFFSET = 0x34;
+constexpr auto ADC_DR_OFFSET = 0x4C;
+constexpr auto ADC_CR2_ADON = (1 << 0);
+constexpr auto ADC_CR2_SWSTART = (1 << 30);
+
 #define ESC_REG(x)                  (*((volatile uint32_t *)(x)))
 
-#define GPIOA_BASE                  0x40020000
-#define GPIOB_BASE                  0x40020400
-#define RCC_BASE                    0x40023800
-#define ADC1_BASE                   0x40012000
-#define ADC2_BASE                   0x40012100
+auto get_gpio_base(unsigned int pin) -> volatile uint32_t* {
+	if (pin < 8) {
+		return reinterpret_cast<volatile uint32_t*>(GPIOA_BASE);
+	} else if (pin < 16) {
+		return reinterpret_cast<volatile uint32_t*>(GPIOB_BASE);
+	} else {
+		return nullptr;
+	}
+}
 
-#define GPIO_MODER_OFFSET           0x00
-#define RCC_AHB1ENR_OFFSET          0x30
-#define RCC_APB2ENR_OFFSET          0x44
-#define ADC_SR_OFFSET               0x00
-#define ADC_CR1_OFFSET              0x04
-#define ADC_CR2_OFFSET              0x08
-#define ADC_SMPR1_OFFSET            0x0C
-#define ADC_SMPR2_OFFSET            0x10
-#define ADC_SQR1_OFFSET             0x2C
-#define ADC_SQR3_OFFSET             0x34
-#define ADC_DR_OFFSET               0x4C
+auto get_adc_base(unsigned int adc) -> volatile uint32_t* {
+	if (adc == 1) {
+		return reinterpret_cast<volatile uint32_t*>(ADC1_BASE);
+	} else if (adc == 2) {
+		return reinterpret_cast<volatile uint32_t*>(ADC2_BASE);
+	} else {
+		return nullptr;
+	}
+}
 
-#define ADC_SR_EOC                  (1 << 1)
-#define ADC_CR2_ADON                (1 << 0)
-#define ADC_CR2_SWSTART             (1 << 30)
 
-volatile uint32_t *get_gpio_base(unsigned int pin) {
+auto enable_gpio_clock(unsigned int pin) -> void {
     if (pin < 8) {
-        return (volatile uint32_t *)GPIOA_BASE;
+    	ESC_REG(RCC_BASE + RCC_AHB1ENR_OFFSET) |= (1 << 0); // Habilita o clock para GPIOA
     } else if (pin < 16) {
-        return (volatile uint32_t *)GPIOB_BASE;
-    } else {
-        return nullptr;
+    	ESC_REG(RCC_BASE + RCC_AHB1ENR_OFFSET) |= (1 << 1); // Habilita o clock para GPIOB
     }
 }
 
-volatile uint32_t *get_adc_base(unsigned int adc) {
+auto enable_adc_clock(unsigned int adc) -> void {
     if (adc == 1) {
-        return (volatile uint32_t *)ADC1_BASE;
+    	ESC_REG(RCC_BASE + RCC_APB2ENR_OFFSET) |= (1 << 8); // Habilita o clock para ADC1
     } else if (adc == 2) {
-        return (volatile uint32_t *)ADC2_BASE;
-    } else {
-        return nullptr;
+    	ESC_REG(RCC_BASE + RCC_APB2ENR_OFFSET) |= (1 << 9); // Habilita o clock para ADC2
     }
 }
 
-//void enable_gpio_clock(unsigned int pin) {
-//    if (pin < 8) {
-//        ESC_REG(RCC_BASE + RCC_AHB1ENR_OFFSET) |= (1 << 0); // Enable GPIOA clock
-//    } else if (pin < 16) {
-//        ESC_REG(RCC_BASE + RCC_AHB1ENR_OFFSET) |= (1 << 1); // Enable GPIOB clock
-//    }
-//}
-
-void enable_adc_clock(unsigned int adc) {
-    if (adc == 1) {
-        ESC_REG(RCC_BASE + RCC_APB2ENR_OFFSET) |= (1 << 8); // Enable ADC1 clock
-    } else if (adc == 2) {
-        ESC_REG(RCC_BASE + RCC_APB2ENR_OFFSET) |= (1 << 9); // Enable ADC2 clock
-    }
-}
-
-}
+} // namespace
 
 
-AnalogOperation::AnalogOperation(const unsigned int & pin, const unsigned int & adc, const unsigned int & channel) : adc_(adc), channel_(channel), pin_(pin) {
+AnalogOperation::AnalogOperation(const unsigned int & pin,
+								 const unsigned int & adc,
+								 const unsigned int & channel) :
+						adc_(adc), channel_(channel), pin_(pin) {
 	if (adc < 1 || channel < 1 || channel > MAX_CHANNEL_SUPPORT ){
 		printf("Invalid parameters on AnalogOperation constructor\n");
+		return;
 	}
 	Init();
 }
 
 
 auto AnalogOperation::Read() -> std::optional<uint32_t> {
-	auto value = LowLevelRead();
-	if (value.has_value()){
-		return  value.value();
-	}
-	return {};
+	return LowLevelRead();
 }
 
 
@@ -91,14 +92,24 @@ auto AnalogOperation::Write(const float & value) -> bool {
 
 
 auto AnalogOperation::LowLevelRead() -> std::optional<uint32_t> {
-    auto adcx = get_adc_base(adc_);
+    volatile uint32_t* adcx = get_adc_base(adc_);
     if (!adcx) return {};
 
-    adcx[ADC_CR2_OFFSET / 4] |= ADC_CR2_SWSTART; // Start conversion
+    // Iniciar a conversão
+    ESC_REG(adcx + (ADC_CR2_OFFSET / 4)) |= ADC_CR2_SWSTART;
 
-    while (!(adcx[ADC_SR_OFFSET / 4] & ADC_SR_EOC)); // Wait for conversion to complete
+    // Aguardar a conclusão da conversão com timeout
+    uint32_t timeout = 1000000;
+    while (!(ESC_REG(adcx + (ADC_SR_OFFSET / 4)) & (1 << 1)) && --timeout);
 
-    return adcx[ADC_DR_OFFSET / 4]; // Read the ADC value
+    // Verificar timeout
+    if (timeout == 0) {
+        return {}; // Timeout ocorreu
+    }
+
+    // Ler o valor do ADC
+    uint32_t value_from_adc = ESC_REG(adcx + (ADC_DR_OFFSET / 4));
+    return value_from_adc;
 }
 
 
@@ -107,33 +118,60 @@ auto AnalogOperation::LowLevelWrite(const uint32_t & value) -> bool {
 }
 
 auto AnalogOperation::Init() -> void {
-    volatile uint32_t *gpiox = get_gpio_base(pin_);
-    volatile uint32_t *adcx = get_adc_base(adc_);
+    volatile uint32_t* gpiox = get_gpio_base(pin_);
+    volatile uint32_t* adcx = get_adc_base(adc_);
 
     if (!gpiox || !adcx) {
         printf("Error on set parameters\n");
         return;
     }
 
-    //enable_gpio_clock(pin_);
+    // Habilitar o clock do GPIO e do ADC
+    enable_gpio_clock(pin_);
     enable_adc_clock(adc_);
 
-    gpiox[GPIO_MODER_OFFSET / 4] |= (3 << (pin_ * 2)); // Set pin to analog mode
+    // Configurar o pino como modo analógico
+    ESC_REG(gpiox + (GPIO_MODER_OFFSET / 4)) |= (3 << (pin_ * 2));
 
-    adcx[ADC_CR1_OFFSET / 4] &= ~(1 << 8); // SCAN mode disabled
-    adcx[ADC_CR1_OFFSET / 4] &= ~(3 << 24); // 12-bit resolution
-    adcx[ADC_SQR1_OFFSET / 4] &= ~(0x0F << 20); // Single conversion
-    adcx[ADC_SQR3_OFFSET / 4] &= ~(0x3FFFFFFF); // Clear regular sequence register
-    adcx[ADC_SQR3_OFFSET / 4] |= channel_; // Set the ADC channel
-    adcx[ADC_CR2_OFFSET / 4] &= ~(1 << 1); // Single conversion mode
-    adcx[ADC_CR2_OFFSET / 4] &= ~(1 << 11); // Right alignment
+    // Configuração do ADC
+    ESC_REG(adcx + (ADC_CR1_OFFSET / 4)) &= ~(1 << 8); // SCAN mode disabled
+    ESC_REG(adcx + (ADC_CR1_OFFSET / 4)) &= ~(3 << 24); // 12-bit resolution
+    ESC_REG(adcx + (ADC_SQR1_OFFSET / 4))&= ~(1 << 20); // (1 conversion, so 0b0000)
+    ESC_REG(adcx + (ADC_SQR3_OFFSET / 4)) &=  ~(0x3FFFFFFF); // Clear regular sequence register
+    ESC_REG(adcx + (ADC_SQR3_OFFSET / 4)) |= channel_; // Set the ADC channel
+    ESC_REG(adcx + (ADC_CR2_OFFSET / 4)) &= ~(1 << 1); // Single conversion mode
+    ESC_REG(adcx + (ADC_CR2_OFFSET / 4)) &= ~(1 << 11); // Right alignment
 
     if (channel_ < 10) {
-        adcx[ADC_SMPR2_OFFSET / 4] |= (7 << (channel_ * 3)); // Set sample time for channels 0-9
+        ESC_REG(adcx + (ADC_SMPR2_OFFSET / 4)) |= (7 << (channel_ * 3)); // Set sample time for channels 0-9
     } else {
-        adcx[ADC_SMPR1_OFFSET / 4] |= (7 << ((channel_ - 10) * 3)); // Set sample time for channels 10-18
+        ESC_REG(adcx + (ADC_SMPR1_OFFSET / 4)) |= (7 << ((channel_ - 10) * 3)); // Set sample time for channels 10-18
     }
 
-    adcx[ADC_CR2_OFFSET / 4] |= ADC_CR2_ADON; // Enable ADC
+    ESC_REG(adcx + (ADC_CR2_OFFSET / 4)) |= ADC_CR2_ADON; // Enable ADC
+}
+
+auto AnalogOperation::ExamplePotenciometro() -> void {
+    // Instace
+	uint32_t buffer = 0;
+    constexpr auto pin_micro = 4;
+    constexpr auto adc_micro = 1;
+    constexpr auto canal_micro = 4;
+	auto imp = AnalogOperation(pin_micro,adc_micro, canal_micro);
+    // Loop
+    while(true){
+        auto value = imp.Read();
+        if (value.has_value()){
+        	buffer = value.value();
+            printf("valor aqui = %lu\n",buffer);
+        }
+        else{
+            printf("deu ruim\n");
+        }
+        
+        for (auto counter = 0; counter < 20000; counter++);
+    }
+}
+
 }
 
