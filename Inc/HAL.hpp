@@ -39,7 +39,6 @@ public:
 	// Resetar contador de timer
 	static void resetTimerCounter(uint32_t timer_base);
 
-private:
 	static constexpr uint32_t RCC_AHB1ENR_GPIOAEN = (1 << 0);
 	static constexpr uint32_t RCC_APB2ENR_SYSCFGEN = (1 << 14);
 	static constexpr uint32_t RCC_APB1ENR_TIM2EN = (1 << 0);
