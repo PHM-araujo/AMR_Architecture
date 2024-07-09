@@ -1,6 +1,6 @@
 # AMR_Architecture
 
-Este repositório contém a implementação de uma arquitetura para robôs móveis autônomos (AMR) utilizando a placa STM32F407G-DISC1. Este projeto faz parte da disciplina de Mestrado em Arquitetura e Padrões de Projeto de Software.
+Este repositório contém a implementação de uma arquitetura para robôs móveis autônomos (AMR) utilizando a placa STM32F407G-DISC1. Este projeto faz parte da disciplina de Arquitetura e Padrões de Projeto de Software.
 
 ## Estrutura do Projeto
 
