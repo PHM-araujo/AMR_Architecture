@@ -8,9 +8,9 @@
 #ifndef AMRROBOT_HPP_
 #define AMRROBOT_HPP_
 
-#include "InterruptOperation.hpp"
-#include "DGPIO.hpp"
+//#include "DGPIO.hpp"
 #include "AnalogOperation.h"
+#include "InterruptOperation.hpp"
 
 class AMRRobot {
 public:
@@ -19,8 +19,8 @@ public:
 	void Run();
 
 private:
-	 InterruptOperation interrupt;
-	 DGPIO* dgpio_teste;
+	 // DGPIO* dgpio_teste;
+	InterruptOperation interrupt_operation;
 };
 
 

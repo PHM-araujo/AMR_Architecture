@@ -6,6 +6,7 @@
  */
 #include "AMRRobot.hpp"
 
+
 AMRRobot::AMRRobot() {
 	// Inicializar váriaveis e afins
 	// dgpio_teste = NULL;
@@ -14,9 +15,8 @@ AMRRobot::AMRRobot() {
 
 void AMRRobot::Init() {
 	// Inicializar componentes
-	interrupt.init();
 	// dpgpio = new DGPIO();
-
+	interrupt_operation.init();
 }
 
 void AMRRobot::Run() {
