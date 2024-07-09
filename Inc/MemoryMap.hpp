@@ -107,11 +107,12 @@ struct TIM_TypeDef {
 
 
 // Definição dos ponteiros globais para os periféricos
-GPIO_TypeDef* GPIOA = reinterpret_cast<GPIO_TypeDef*>(GPIOA_BASE);
-RCC_TypeDef* RCC = reinterpret_cast<RCC_TypeDef*>(RCC_BASE);
-EXTI_TypeDef* EXTI = reinterpret_cast<EXTI_TypeDef*>(EXTI_BASE);
-SYSCFG_TypeDef* SYSCFG = reinterpret_cast<SYSCFG_TypeDef*>(SYSCFG_BASE);
-TIM_TypeDef* TIM2 = reinterpret_cast<TIM_TypeDef*>(TIM2_BASE);
-volatile uint32_t* NVIC_ISER ((volatile uint32_t*) NVIC_BASE);
+// Declarações dos ponteiros globais para os periféricos
+extern GPIO_TypeDef* GPIOA;
+extern RCC_TypeDef* RCC;
+extern EXTI_TypeDef* EXTI;
+extern SYSCFG_TypeDef* SYSCFG;
+extern TIM_TypeDef* TIM2;
+extern volatile uint32_t* NVIC_ISER;
 
 #endif /* MEMORYMAP_HPP_ */
