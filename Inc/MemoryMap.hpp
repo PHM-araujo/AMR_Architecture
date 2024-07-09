@@ -112,6 +112,6 @@ RCC_TypeDef* RCC = reinterpret_cast<RCC_TypeDef*>(RCC_BASE);
 EXTI_TypeDef* EXTI = reinterpret_cast<EXTI_TypeDef*>(EXTI_BASE);
 SYSCFG_TypeDef* SYSCFG = reinterpret_cast<SYSCFG_TypeDef*>(SYSCFG_BASE);
 TIM_TypeDef* TIM2 = reinterpret_cast<TIM_TypeDef*>(TIM2_BASE);
-volatile uint32_t* NVIC_ISER ((volatile uint32_t*) NVIC_BASE)
+volatile uint32_t* NVIC_ISER ((volatile uint32_t*) NVIC_BASE);
 
 #endif /* MEMORYMAP_HPP_ */

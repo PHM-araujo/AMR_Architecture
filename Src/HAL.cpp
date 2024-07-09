@@ -18,7 +18,7 @@ void HAL::enableClock(uint32_t peripheral){
 }
 
 void HAL::configureGPIO(uint32_t gpio_base, uint32_t pin, bool is_input){
-	GPIO_TipeDef GPIOx = (GPIO_TypeDef*)gpio_base;
+	GPIO_TypeDef* GPIOx = reinterpret_cast<GPIO_TypeDef*>(gpio_base);
 	if (is_input) {
 		GPIOx->MODER &= ~(0x3 << (pin * 2));
 	} else {
