@@ -6,7 +6,7 @@
  */
 #include "ButtonInterrupt.hpp"
 #include "HAL.hpp"
-// #include "InterruptManager.hpp"
+#include "InterruptManager.hpp"
 
 std::function<void()> ButtonInterrupt::handler = nullptr;
 
@@ -20,7 +20,7 @@ void ButtonInterrupt::init(){
 	HAL::configureEXTI(exti_line, gpio_base, pin);
 	HAL::configureEXTIRisingEdge(exti_line);
 	HAL::enableInterrupt(irq_number);
-	//interruptManager
+	InterruptManager::installInterruptHandler(irq_number, EXTI0_IRQHandler);
 }
 
 void ButtonInterrupt::setInterruptHandler(std::function<void()> handler) {
