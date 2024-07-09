@@ -1,92 +1,66 @@
-# STM32F407G-DISC1 Project
+# AMR_Architecture
 
-**Warning:** Ensure that all source files (`AnalogSignal.h`, `AnalogSignal.cpp`, `DigitalSignal.h`, `DigitalSignal.cpp`, `InterruptManager.h`, `InterruptManager.cpp`, `main.cpp`) are placed in the `Src` directory of your STM32CubeIDE project to run the code correctly.
+Este repositório contém a implementação de uma arquitetura para robôs móveis autônomos (AMR) utilizando a placa STM32F407G-DISC1. Este projeto faz parte da disciplina de Arquitetura e Padrões de Projeto de Software.
 
-This project demonstrates how to interface with analog and digital signals and handle interrupts on the STM32F407G-DISC1 board. The project is implemented in C++ without using any external libraries or headers like `stm32f4xx.h`.
+## Estrutura do Projeto
 
-## Project Structure
+- **AMR_Architecture Debug.launch**
+- **Inc**
+  - AMRRobot.hpp
+  - AnalogOperation.h
+  - DGPIO.hpp
+  - InterruptOperation.hpp
+- **README.md**
+- **STM32F407VGTX_FLASH.ld**
+- **STM32F407VGTX_RAM.ld**
+- **Src**
+  - AMRRobot.cpp
+  - AnalogOperation.cpp
+  - DGPIO.cpp
+  - InterruptOperation.cpp
+  - main.cpp
+  - syscalls.c
+  - sysmem.c
+- **Startup**
+  - startup_stm32f407vgtx.s
 
-The project consists of several classes and functions organized into different files to handle various aspects of the microcontroller's functionality:
+## Descrição dos Arquivos
 
-### AnalogSignal Class
-- **File**: `AnalogSignal.h`, `AnalogSignal.cpp`
-- **Purpose**: This class manages the reading and writing of analog signals using the ADC and DAC peripherals of the STM32F407G-DISC1.
-- **Key Methods**:
-  - `AnalogSignal(int pin)`: Constructor to initialize the analog signal on the specified pin.
-  - `int read()`: Reads an analog value from the pin.
-  - `void write(int value)`: Writes an analog value to the pin via DAC.
+- **Inc/**: Contém os arquivos de cabeçalho (.h e .hpp) com declarações de classes e funções.
+  - `AMRRobot.hpp`: Declarações relacionadas ao robô AMR.
+  - `AnalogOperation.h`: Declarações para operações analógicas.
+  - `DGPIO.hpp`: Declarações para operações de GPIO digital.
+  - `InterruptOperation.hpp`: Declarações para operações de interrupções.
 
-### DigitalSignal Class
-- **File**: `DigitalSignal.h`, `DigitalSignal.cpp`
-- **Purpose**: This class handles reading from and writing to digital GPIO pins.
-- **Key Methods**:
-  - `DigitalSignal(int pin)`: Constructor to initialize the digital signal on the specified pin.
-  - `int read()`: Reads a digital value from the pin.
-  - `void write(int value)`: Writes a digital value to the pin.
+- **Src/**: Contém os arquivos de código-fonte (.cpp e .c) com a implementação das classes e funções.
+  - `AMRRobot.cpp`: Implementação das funcionalidades do robô AMR.
+  - `AnalogOperation.cpp`: Implementação das operações analógicas.
+  - `DGPIO.cpp`: Implementação das operações de GPIO digital.
+  - `InterruptOperation.cpp`: Implementação das operações de interrupções.
+  - `main.cpp`: Função principal do programa.
+  - `syscalls.c`: Implementações de syscalls.
+  - `sysmem.c`: Implementação da memória do sistema.
 
-### InterruptManager Class
-- **File**: `InterruptManager.h`, `InterruptManager.cpp`
-- **Purpose**: This class manages external interrupts on a specified GPIO pin.
-- **Key Methods**:
-  - `InterruptManager(int pin, void (*callback)())`: Constructor to initialize the interrupt on the specified pin with a callback function.
-  - `void enable()`: Enables the interrupt.
-  - `void disable()`: Disables the interrupt.
+- **Startup/**: Contém o arquivo de inicialização.
+  - `startup_stm32f407vgtx.s`: Arquivo de inicialização para a placa STM32F407VGTX.
 
-### UART Functions
-- **File**: `main.cpp`
-- **Purpose**: These functions initialize the UART for serial communication and provide methods to send data via UART.
-- **Key Functions**:
-  - `void UART2_Init()`: Initializes UART2 for serial communication.
-  - `void UART2_Write(char ch)`: Sends a single character via UART.
-  - `void UART2_WriteString(const char* str)`: Sends a string via UART.
+- **STM32F407VGTX_FLASH.ld**: Script de link para a memória flash da STM32F407VGTX.
+- **STM32F407VGTX_RAM.ld**: Script de link para a memória RAM da STM32F407VGTX.
 
-### Main Program
-- **File**: `main.cpp`
-- **Purpose**: The main program initializes the peripherals, configures the signals, and runs the main loop to monitor and control the signals.
-- **Key Components**:
-  - `volatile bool interruptOccurred`: Flag to indicate if an interrupt has occurred.
-  - `void myInterruptHandler()`: Interrupt handler function.
-  - `int main()`: Main function that initializes peripherals, sets up signals, and runs the main loop.
+## Objetivo do Projeto
 
-## How to Run the Project
+O objetivo deste projeto é desenvolver uma arquitetura para um robô móvel autônomo, abordando as seguintes funcionalidades:
 
-1. **Set Up the Development Environment**:
-   - Install STM32CubeIDE or another suitable IDE for STM32 development.
-   - Ensure the STM32F407G-DISC1 board is connected to your computer.
+1. **Leitura e Escrita de um Sinal Analógico**: Implementação de funções para leitura e escrita de sinais analógicos.
+2. **Leitura e Escrita de um Sinal Digital**: Implementação de funções para leitura e escrita de sinais digitais.
+3. **Gerenciamento de Interrupções**: Implementação de rotinas de interrupção para lidar com eventos assíncronos.
+4. **Implementação sem uso de bibliotecas externas**: O código deve ser escrito sem a utilização de bibliotecas como HAL (Hardware Abstraction Layer) ou outras bibliotecas externas, utilizando apenas C, C++ ou Rust.
 
-2. **Load the Project**:
-   - Open the project in STM32CubeIDE.
-   - Ensure all source files (`AnalogSignal.h`, `AnalogSignal.cpp`, `DigitalSignal.h`, `DigitalSignal.cpp`, `InterruptManager.h`, `InterruptManager.cpp`, `main.cpp`) are included in the `Src` directory of the project.
+## Instalação
 
-3. **Build and Flash**:
-   - Compile the project within the IDE.
-   - Flash the compiled binary to the STM32F407G-DISC1 board.
 
-4. **Monitor Serial Output**:
-   - Open a serial terminal application (such as PuTTY).
-   - Configure the terminal to the correct COM port and baud rate (9600).
-   - Monitor the serial output for analog and digital signal values and interrupt occurrences.
+- Clone este repositório:
+   ```sh
+   git clone https://github.com/PHM-araujo/AMR_Architecture.git
+   ```
 
-## Monitoring the Execution
-
-To monitor the execution of the program on the STM32F407G-DISC1 board:
-
-1. **Connect the board to the computer via USB**.
-2. **Open a serial terminal** (PuTTY, Tera Term, or the Arduino IDE serial monitor) and configure it to the correct COM port and baud rate (9600 in the example above).
-3. **Observe the terminal** to see the analog and digital readings being printed periodically.
-
-## Tests
-
-### Digital Input
-1. **Connect a button to pin PA1**.
-2. Observe the changes in the digital value on the terminal as you press the button.
-
-### Analog Input
-1. **Connect a potentiometer to pin PA0**.
-2. Observe the changes in the analog value on the terminal as you adjust the potentiometer.
-
-### Interrupts
-1. **Connect a button to pin PA0 configured for interrupts**.
-2. Observe if the LED connected to pin PA5 toggles when you press the button.
-
-This project provides a basic framework for handling analog and digital signals and managing interrupts on the STM32F407G-DISC1 board, serving as a starting point for more complex applications.
