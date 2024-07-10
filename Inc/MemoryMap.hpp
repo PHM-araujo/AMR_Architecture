@@ -4,14 +4,21 @@
 #include <cstdint>
 
 // Endereços base
-constexpr uint32_t PERIPHERAL_BASE = 0x40000000;					// Endereço base para todos os periféricos
-constexpr uint32_t AHB1PERIPH_BASE = PERIPHERAL_BASE + 0x00020000;	// Seção de memória dos periféricos AHB1
-constexpr uint32_t APB2PERIPH_BASE = PERIPHERAL_BASE + 0x00010000;	// Seção de memória dos periféricos APB2
-constexpr uint32_t APB1PERIPH_BASE = PERIPHERAL_BASE;				// Seção de memória dos periféricos APB1
-
+constexpr uint32_t PERIPHERAL_BASE = 0x40000000;                   // Endereço base para todos os periféricos
+constexpr uint32_t AHB1PERIPH_BASE = PERIPHERAL_BASE + 0x00020000; // Seção de memória dos periféricos AHB1
+constexpr uint32_t APB2PERIPH_BASE = PERIPHERAL_BASE + 0x00010000; // Seção de memória dos periféricos APB2
+constexpr uint32_t APB1PERIPH_BASE = PERIPHERAL_BASE;              // Seção de memória dos periféricos APB1
 
 // Endereços base para a GPIOA
 constexpr uint32_t GPIOA_BASE = AHB1PERIPH_BASE + 0x0000;
+constexpr uint32_t GPIOB_BASE = AHB1PERIPH_BASE + 0x0400;
+constexpr uint32_t GPIOC_BASE = AHB1PERIPH_BASE + 0x0800;
+constexpr uint32_t GPIOD_BASE = AHB1PERIPH_BASE + 0x0C00;
+constexpr uint32_t GPIOE_BASE = AHB1PERIPH_BASE + 0x1000;
+constexpr uint32_t GPIOF_BASE = AHB1PERIPH_BASE + 0x1400;
+constexpr uint32_t GPIOG_BASE = AHB1PERIPH_BASE + 0x1800;
+constexpr uint32_t GPIOH_BASE = AHB1PERIPH_BASE + 0x1C00;
+constexpr uint32_t GPIOI_BASE = AHB1PERIPH_BASE + 0x2000;
 
 // Endereço base para o RCC
 constexpr uint32_t RCC_BASE = AHB1PERIPH_BASE + 0x3800;
@@ -29,20 +36,22 @@ constexpr uint32_t TIM2_BASE = APB1PERIPH_BASE + 0x0000;
 constexpr uint32_t NVIC_BASE = 0xE000E100;
 
 // Struct para a GPIO
-struct GPIO_TypeDef {
-	volatile uint32_t MODER;
-	volatile uint32_t OTYPER;
-	volatile uint32_t OSPEEDR;
-	volatile uint32_t PUPDR;
-	volatile uint32_t IDR;
-	volatile uint32_t ODR;
-	volatile uint32_t BSRR;
-	volatile uint32_t LCKR;
-	volatile uint32_t AFR[2];
+struct GPIO_TypeDef
+{
+    volatile uint32_t MODER;
+    volatile uint32_t OTYPER;
+    volatile uint32_t OSPEEDR;
+    volatile uint32_t PUPDR;
+    volatile uint32_t IDR;
+    volatile uint32_t ODR;
+    volatile uint32_t BSRR;
+    volatile uint32_t LCKR;
+    volatile uint32_t AFR[2];
 };
 
 // Struct para o RCC
-struct RCC_TypeDef {
+struct RCC_TypeDef
+{
     volatile uint32_t CR;
     volatile uint32_t PLLCFGR;
     volatile uint32_t CFGR;
@@ -63,7 +72,8 @@ struct RCC_TypeDef {
 };
 
 // Struct para EXTI
-struct EXTI_TypeDef {
+struct EXTI_TypeDef
+{
     volatile uint32_t IMR;
     volatile uint32_t EMR;
     volatile uint32_t RTSR;
@@ -72,8 +82,9 @@ struct EXTI_TypeDef {
     volatile uint32_t PR;
 };
 
-// Struct para o SYSCGF
-struct SYSCFG_TypeDef {
+// Struct para o SYSCFG
+struct SYSCFG_TypeDef
+{
     volatile uint32_t MEMRMP;
     volatile uint32_t PMC;
     volatile uint32_t EXTICR[4];
@@ -82,7 +93,8 @@ struct SYSCFG_TypeDef {
 };
 
 // Struct para o timer
-struct TIM_TypeDef {
+struct TIM_TypeDef
+{
     volatile uint32_t CR1;
     volatile uint32_t CR2;
     volatile uint32_t SMCR;
@@ -105,14 +117,20 @@ struct TIM_TypeDef {
     volatile uint32_t DMAR;
 };
 
-
-// Definição dos ponteiros globais para os periféricos
 // Declarações dos ponteiros globais para os periféricos
-extern GPIO_TypeDef* GPIOA;
-extern RCC_TypeDef* RCC;
-extern EXTI_TypeDef* EXTI;
-extern SYSCFG_TypeDef* SYSCFG;
-extern TIM_TypeDef* TIM2;
-extern volatile uint32_t* NVIC_ISER;
+extern GPIO_TypeDef *GPIOA;
+extern GPIO_TypeDef *GPIOB;
+extern GPIO_TypeDef *GPIOC;
+extern GPIO_TypeDef *GPIOD;
+extern GPIO_TypeDef *GPIOE;
+extern GPIO_TypeDef *GPIOF;
+extern GPIO_TypeDef *GPIOG;
+extern GPIO_TypeDef *GPIOH;
+extern GPIO_TypeDef *GPIOI;
+extern RCC_TypeDef *RCC;
+extern EXTI_TypeDef *EXTI;
+extern SYSCFG_TypeDef *SYSCFG;
+extern TIM_TypeDef *TIM2;
+extern volatile uint32_t *NVIC_ISER;
 
 #endif /* MEMORYMAP_HPP_ */
