@@ -1,36 +1,44 @@
 #ifndef ANALOGOPERATION_H_
 #define ANALOGOPERATION_H_
 
-#include <optional>
 #include <stdint.h>
-#include <stdio.h>
+
+#include <optional>
+
+#include "AnalogObserver.h"
+#include "Notify.h"
 
 namespace analog {
 
 class AnalogOperation {
-public:
-	AnalogOperation(const unsigned int & pin, const unsigned int & adc, const unsigned int & channel);
+ public:
+  AnalogOperation(const unsigned int& pin, const unsigned int& adc,
+                  const unsigned int& channel);
 
-	auto Read() -> std::optional<uint32_t>;
+  auto Read() -> std::optional<uint32_t>;
 
-	auto Write(const float & value) -> bool;
+  auto Write(const float& value) -> bool;
 
-	static auto ExamplePotenciometro() -> void;
+  auto RegisterObserver(std::shared_ptr<AnalogObserver> observer) -> void;
 
-private:
-	auto LowLevelRead() -> std::optional<uint32_t>;
+  static auto ExamplePotenciometro() -> void;
 
-	auto LowLevelWrite(const uint32_t & value) -> bool;
+ private:
+  auto LowLevelRead() -> std::optional<uint32_t>;
 
-	auto Init() -> void;
+  auto LowLevelWrite(const uint32_t& value) -> bool;
 
-	unsigned int adc_;
+  auto Init() -> void;
 
-	unsigned int channel_;
+  unsigned int adc_;
 
-	unsigned int pin_;
+  unsigned int channel_;
+
+  unsigned int pin_;
+
+  Notify notify_;
 };
 
-}
+}  // namespace analog
 
 #endif /* ANALOGOPERATION_H_ */
