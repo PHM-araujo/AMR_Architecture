@@ -1,27 +1,28 @@
 /*
  * InterruptOperation.hpp
  *
- *  Created on: Jul 1, 2024
+ *  Created on: Jul 9, 2024
  *      Author: Pedro
  */
 
 #ifndef INTERRUPTOPERATION_HPP_
 #define INTERRUPTOPERATION_HPP_
 
+#include "ButtonInterrupt.hpp"
+#include "TimerInterrupt.hpp"
+#include "MemoryMap.hpp"
+
 class InterruptOperation {
 public:
+	InterruptOperation();
 	void init();
-	static void EXTI0_IRQHandler();
-	static void TIM2_IRQHandler();
-
 private:
-	 static volatile int debouncer_flag;
-	 static int var;
+	ButtonInterrupt* button_interrupt;
+	static TimerInterrupt* timer_interrupt;
 
-	 void init_button_interrupt();
-	 void init_timer2();
+	static int var;
+	static volatile int debouncer_flag;
 };
-
 
 
 #endif /* INTERRUPTOPERATION_HPP_ */
