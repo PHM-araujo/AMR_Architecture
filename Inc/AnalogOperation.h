@@ -5,23 +5,16 @@
 
 #include <optional>
 
-#include "AnalogObserver.h"
-#include "Notify.h"
-
 namespace analog {
 
 class AnalogOperation {
  public:
   AnalogOperation(const unsigned int& pin, const unsigned int& adc,
-                  const unsigned int& channel);
+                  const unsigned int& channel, const bool bypass = false);
 
   auto Read() -> std::optional<uint32_t>;
 
   auto Write(const float& value) -> bool;
-
-  auto RegisterObserver(std::shared_ptr<AnalogObserver> observer) -> void;
-
-  static auto ExamplePotenciometro() -> void;
 
  private:
   auto LowLevelRead() -> std::optional<uint32_t>;
@@ -36,7 +29,7 @@ class AnalogOperation {
 
   unsigned int pin_;
 
-  Notify notify_;
+  bool bypass_;
 };
 
 }  // namespace analog

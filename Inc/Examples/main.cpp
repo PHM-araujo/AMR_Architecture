@@ -1,13 +1,9 @@
-
-#define POTENCIOMETRO_EXAMPLE
-
-#ifdef POTENCIOMETRO_EXAMPLE
 #include <stdio.h>
 
 #include <cinttypes>
 
-#include "Inc/AnalogOperation.h"
-#include "Inc/Examples/ApplyObserver.h"
+#include "AnalogOperation.h"
+#include "ApplyObserver.h"
 
 int main(void) {
   ApplyObserver elemento_que_ouve;
@@ -31,19 +27,3 @@ int main(void) {
 
   return 0;
 }
-
-#endif
-
-#ifdef AMR_ROBOT
-#include <stdint.h>
-
-#include "AMRRobot.hpp"
-
-int main() {
-  AMRRobot amr;
-  amr.Init();
-  amr.Run();
-  return 0;
-}
-
-#endif

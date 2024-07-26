@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-#include <cinttypes>
+#include "Notify/Notify.h"
 
 namespace analog {
 
@@ -76,22 +76,29 @@ auto enable_adc_clock(unsigned int adc) -> void {
 
 AnalogOperation::AnalogOperation(const unsigned int& pin,
                                  const unsigned int& adc,
-                                 const unsigned int& channel)
-    : adc_(adc), channel_(channel), pin_(pin) {
+                                 const unsigned int& channel, const bool bypass)
+    : adc_(adc), channel_(channel), pin_(pin), bypass_(bypass) {
   if (adc < 1 || channel < 1 || channel > MAX_CHANNEL_SUPPORT) {
     printf("Invalid parameters on AnalogOperation constructor\n");
     return;
   }
-  Init();
+  if (!bypass_) {
+    Init();
+  }
 }
 
 auto AnalogOperation::Read() -> std::optional<uint32_t> {
-  auto register_value = LowLevelRead();
+  std::optional<uint32_t> register_value;
+  if (!bypass_) {
+    register_value = LowLevelRead();
+  } else {
+    register_value = 10;
+  }
   if (register_value.has_value()) {
     // Aqui notifica os escutadores
-    notify_.NotifyAnalogObserver(pin_, register_value.value());
+    Notify::NotifyAnalogObserver(pin_, register_value.value());
   }
-  return LowLevelRead();
+  return register_value;
 }
 
 auto AnalogOperation::Write(const float& value) -> bool {
@@ -160,48 +167,6 @@ auto AnalogOperation::Init() -> void {
   }
 
   ESC_REG(adcx + (ADC_CR2_OFFSET / 4)) |= ADC_CR2_ADON;  // Enable ADC
-}
-
-auto AnalogOperation::RegisterObserver(std::shared_ptr<AnalogObserver> observer)
-    -> void {
-  notify_.Attach(observer);
-}
-
-/* ===============================================
- *                  FAKE MAIN
- * ===============================================
- */
-auto AnalogOperation::ExamplePotenciometro() -> void {
-  class ObjetoParaEscutar : public AnalogObserver {
-   private:
-    void OnAnalogObserver(const unsigned int& pin,
-                          const unsigned int& value) override {
-      printf("Values receveid [ %d, %d ]\n", pin, value);
-    }
-  };
-
-  // Instace
-  constexpr auto pin_micro = 4;
-  constexpr auto adc_micro = 1;
-  constexpr auto canal_micro = 4;
-  auto analog_operation = std::make_shared<analog::AnalogOperation>(
-      pin_micro, adc_micro, canal_micro);
-  auto observer = std::make_shared<ObjetoParaEscutar>();
-
-  // Registra objeto que ira escutar
-  analog_operation->RegisterObserver(observer);
-
-  // Loop
-  while (true) {
-    auto value = analog_operation->Read();
-    if (value.has_value()) {
-      printf("Value from loop = %" PRIu32 "\n", value.value());
-    } else {
-      printf("deu ruim\n");
-    }
-
-    for (auto counter = 0; counter < 20000; counter++);
-  }
 }
 
 }  // namespace analog
