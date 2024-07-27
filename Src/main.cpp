@@ -1,5 +1,6 @@
 
-#define POTENCIOMETRO_EXAMPLE
+// #define POTENCIOMETRO_EXAMPLE
+#define AMR_ROBOT  // Main application
 
 #ifdef POTENCIOMETRO_EXAMPLE
 #include <stdio.h>
@@ -14,14 +15,16 @@ int main(void) {
   constexpr auto pin_micro = 0;
   constexpr auto adc_micro = 1;
   constexpr auto canal_micro = 8;
-  constexpr auto bypass = true;
+  constexpr auto bypass = false;  // keep true if runs on linux
   analog::AnalogOperation analog_operation(pin_micro, adc_micro, canal_micro,
                                            bypass);
 
+  uint32_t debug_value = 0;
   while (true) {
     auto value = analog_operation.Read();
     if (value.has_value()) {
-      printf("Value from loop = %" PRIu32 "\n", value.value());
+      debug_value = value.value();
+      printf("Value from loop = %" PRIu32 "\n", debug_value);
     } else {
       printf("deu ruim\n");
     }
