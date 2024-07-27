@@ -62,7 +62,7 @@ auto AnalogOperation::Init() -> void {
   RCC->APB2ENR |= (1 << 8);  // Habilita o clock para ADC1 (bit 8)
 
   // 2. Configurar o pino PB0 como entrada analógica
-  GPIOB->MODER |= (3 << (2 * 0));  // Configura PB0 como analógico (11b)
+  GPIOB->MODER |= (3 << (2 * pin_));  // Configura PB0 como analógico (11b)
 
   // 3. Configurar o ADC1
   ADC_TypeDef* ADC1 = reinterpret_cast<ADC_TypeDef*>(
@@ -72,8 +72,8 @@ auto AnalogOperation::Init() -> void {
   ADC1->CR2 = 0;  // Reseta CR2
 
   ADC1->CR1 |= (1 << 24);  // Resolução 10 bits (01b no bit 24)
-  ADC1->SQR3 = 8;          // Seleciona canal 8 (PB0)
-  ADC1->CR2 |= (1 << 0);   // Liga o ADC1 (bit 0)
+  ADC1->SQR3 = adc_channel;
+  ADC1->CR2 |= (1 << 0);  // Liga o ADC1 (bit 0)
 
   // 4. Calibração do ADC (opcional)
   ADC1->CR2 |= (1 << 2);         // Inicia calibração (bit 2)

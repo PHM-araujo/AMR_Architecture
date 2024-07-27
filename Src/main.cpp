@@ -11,9 +11,9 @@
 
 int main(void) {
   ApplyObserver elemento_que_ouve;
-  constexpr auto pin_micro = 4;
+  constexpr auto pin_micro = 0;
   constexpr auto adc_micro = 1;
-  constexpr auto canal_micro = 4;
+  constexpr auto canal_micro = 8;
   constexpr auto bypass = true;
   analog::AnalogOperation analog_operation(pin_micro, adc_micro, canal_micro,
                                            bypass);
