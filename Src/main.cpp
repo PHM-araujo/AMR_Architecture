@@ -7,8 +7,8 @@
 
 #include <cinttypes>
 
-#include "Inc/AnalogOperation.h"
-#include "Inc/Examples/ApplyObserver.h"
+#include "AnalogOperation.h"
+#include "Examples/ApplyObserver.h"
 
 int main(void) {
   ApplyObserver elemento_que_ouve;

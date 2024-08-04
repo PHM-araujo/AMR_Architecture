@@ -17,12 +17,6 @@ class AnalogOperation {
   auto Write(const float& value) -> bool;
 
  private:
-  auto LowLevelRead() -> std::optional<uint32_t>;
-
-  auto LowLevelWrite(const uint32_t& value) -> bool;
-
-  auto Init() -> void;
-
   unsigned int adc_;
 
   unsigned int channel_;

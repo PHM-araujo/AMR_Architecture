@@ -8,7 +8,7 @@ EXAMPLES_DIR := Inc/Examples
 BUILD_DIR := .build
 
 # Source files
-SRC_FILES := $(SRC_DIR)/AnalogOperation.cpp $(SRC_DIR)/Notify.cpp $(EXAMPLES_DIR)/main.cpp $(SRC_DIR)/MemoryMap.cpp
+SRC_FILES := $(SRC_DIR)/AnalogOperation.cpp $(SRC_DIR)/Notify.cpp $(SRC_DIR)/main.cpp $(SRC_DIR)/MemoryMap.cpp $(SRC_DIR)/HAL.cpp
 
 # Header directories
 INC_DIRS := -I $(INC_DIR)/Notify -I $(INC_DIR)/Examples -I $(INC_DIR)
