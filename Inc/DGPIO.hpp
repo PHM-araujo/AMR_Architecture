@@ -17,13 +17,14 @@ constexpr int OUTPUT = 0x1;
 class DGPIO {
 public:
     DGPIO(char port, int pin, int mode);
-    void pinMode(int mode);
+    void pinMode();
     void digitalWrite(int value);
     int digitalRead();
 
 private:
-    volatile uint32_t* base;
-    int pin;
+    char port_;
+    int pin_;
+    int mode_;
 };
 
 void delay(unsigned int count);
