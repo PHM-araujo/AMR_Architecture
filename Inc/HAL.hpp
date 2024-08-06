@@ -48,9 +48,18 @@ class HAL {
   static uint32_t obtenhaADCvalue(unsigned int& pin, unsigned int& adc,
                                   unsigned int& channel);
 
+  static void setPinMode(char& port, int& pin, int& mode);
+
+  static void digitalWriteOnPin(char& port, int& pin, int value);
+
+  static bool digitalReadOnPin(char& port, int& pin);
+
   static constexpr uint32_t RCC_AHB1ENR_GPIOAEN = (1 << 0);
   static constexpr uint32_t RCC_APB2ENR_SYSCFGEN = (1 << 14);
   static constexpr uint32_t RCC_APB1ENR_TIM2EN = (1 << 0);
+
+ private:
+  static volatile uint32_t* getPtrByPortAndPin(char port);
 };
 
 #endif /* HAL_HPP_ */
