@@ -8,7 +8,7 @@
 #include "HAL.hpp"
 #include "MemoryMap.hpp"
 #include "InterruptManager.hpp"
-
+#include "Notify/Notify.h"
 TimerInterrupt* TimerInterrupt::instance = nullptr;
 std::function<void()> TimerInterrupt::handler = nullptr;
 

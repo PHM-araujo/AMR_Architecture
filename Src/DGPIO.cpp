@@ -1,5 +1,4 @@
 #include "DGPIO.hpp"
-
 DGPIO::DGPIO(char port, int pin, int mode) : pin(pin) {
     switch (port) {
         case 'A':
@@ -70,12 +69,11 @@ void DGPIO::digitalWrite(int value) {
 int DGPIO::digitalRead() {
     if (base != nullptr) {
         bool result = (base[4] & (1 << pin)) ? 1 : 0;
-        NotifyDigitalObserver(pin, result);
         return result;
     }
     return 0;
 }
 
-void delay(volatile unsigned int count) {
+void delay(unsigned int count) {
     while (count--);
 }
