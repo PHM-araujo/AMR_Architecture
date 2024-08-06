@@ -41,6 +41,7 @@ void TimerInterrupt::start() {
 
 void TimerInterrupt::TIM2_IRQHandler() {
     HAL::clearTimerPendingFlag(instance->timer_base);
+	Notify::NotifyTimerObserver(0);
     if (handler) {
         handler();
     }

@@ -69,7 +69,9 @@ void DGPIO::digitalWrite(int value) {
 
 int DGPIO::digitalRead() {
     if (base != nullptr) {
-        return (base[4] & (1 << pin)) ? 1 : 0;
+        bool result = (base[4] & (1 << pin)) ? 1 : 0;
+        NotifyDigitalObserver(pin, result);
+        return result;
     }
     return 0;
 }
