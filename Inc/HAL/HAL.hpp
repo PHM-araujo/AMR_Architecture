@@ -15,6 +15,9 @@ class HAL {
   // Habilitar clock para um periférico específico
   static void enableClock(uint32_t peripheral);
 
+  // Função de delay
+  static void delay(unsigned int milliseconds);
+
   // Configurar GPIO como entrada ou saída
   static void configureGPIO(uint32_t gpio_base, uint32_t pin, bool is_input);
 

@@ -1,9 +1,9 @@
 #ifndef DEVICECLIENT_HPP_
 #define DEVICECLIENT_HPP_
 
-#include "BouncingDevice.hpp"
-#include "DebouncingTimer.hpp"
-#include "ApplicationClient.hpp"
+#include "Middleware/BouncingDevice.hpp"
+#include "Application_code/ApplicationClient.hpp"
+#include "Middleware/DebouncingTimer.hpp"
 
 class DeviceClient
 {

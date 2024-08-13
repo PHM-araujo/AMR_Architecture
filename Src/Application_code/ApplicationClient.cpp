@@ -1,5 +1,5 @@
-#include "ApplicationClient.hpp"
-#include "DGPIO.hpp"
+#include "Application_code/ApplicationClient.hpp"
+#include "HAL/DGPIO.hpp"
 
 extern DGPIO ledGreen;
 extern DGPIO ledOrange;

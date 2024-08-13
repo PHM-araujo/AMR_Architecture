@@ -4,7 +4,7 @@
  *  Created on: Jul 9, 2024
  *      Author: Pedro
  */
-#include "InterruptOperation.hpp"
+#include "Application_code/InterruptOperation.hpp"
 
 int InterruptOperation::var = 0;
 volatile int InterruptOperation::debouncer_flag = 0;

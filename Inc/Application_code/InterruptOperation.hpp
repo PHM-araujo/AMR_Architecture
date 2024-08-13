@@ -8,9 +8,9 @@
 #ifndef INTERRUPTOPERATION_HPP_
 #define INTERRUPTOPERATION_HPP_
 
-#include "ButtonInterrupt.hpp"
-#include "TimerInterrupt.hpp"
-#include "MemoryMap.hpp"
+#include "HAL/ButtonInterrupt.hpp"
+#include "HAL/TimerInterrupt.hpp"
+#include "Low_level_definitions/MemoryMap.hpp"
 
 class InterruptOperation {
 public:

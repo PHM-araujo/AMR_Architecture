@@ -6,9 +6,9 @@
 #include <memory>
 #include <vector>
 
-#include "AnalogObserver.h"
-#include "DigitalObserver.h"
-#include "TimerObserver.h"
+#include "Application_code/AnalogObserver.h"
+#include "Application_code/DigitalObserver.h"
+#include "Application_code/TimerObserver.h"
 
 class Notify {
  public:
