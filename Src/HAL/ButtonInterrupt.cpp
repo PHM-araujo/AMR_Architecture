@@ -4,9 +4,9 @@
  *  Created on: Jul 9, 2024
  *      Author: Pedro
  */
-#include "ButtonInterrupt.hpp"
-#include "HAL.hpp"
-#include "InterruptManager.hpp"
+#include "HAL/ButtonInterrupt.hpp"
+#include "HAL/HAL.hpp"
+#include "Middleware/InterruptManager.hpp"
 
 std::function<void()> ButtonInterrupt::handler = nullptr;
 

@@ -8,7 +8,7 @@
 #ifndef DGPIO_HPP_
 #define DGPIO_HPP_
 #include <cstdint>
-#include "MemoryMap.hpp"
+#include "Low_level_definitions/MemoryMap.hpp"
 
 // Definição dos modos
 constexpr int INPUT = 0x0;

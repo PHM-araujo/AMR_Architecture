@@ -4,9 +4,9 @@
  *  Created on: Jul 9, 2024
  *      Author: Pedro
  */
-#include "HAL.hpp"
+#include "HAL/HAL.hpp"
 
-#include "MemoryMap.hpp"
+#include "Low_level_definitions/MemoryMap.hpp"
 
 void HAL::enableClock(uint32_t peripheral) {
   if (peripheral == RCC_AHB1ENR_GPIOAEN) {
@@ -176,3 +176,11 @@ volatile uint32_t* HAL::getPtrByPortAndPin(char port) {
   }
   return base;
 }
+
+void HAL::delay(unsigned int milliseconds)
+{
+    // Implementação simples de busy-wait delay
+    for (unsigned int i = 0; i < milliseconds * 1000; i++);
+}
+
+

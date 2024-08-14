@@ -1,13 +1,13 @@
-#include "Notify/Notify.h"
+#include "Middleware/Notify.h"
 
 #include <functional>
 #include <list>
 #include <memory>
 #include <vector>
 
-#include "Notify/AnalogObserver.h"
-#include "Notify/DigitalObserver.h"
-#include "Notify/TimerObserver.h"
+#include "Application_code/AnalogObserver.h"
+#include "Application_code/DigitalObserver.h"
+#include "Application_code/TimerObserver.h"
 
 std::list<std::function<void(const unsigned int&, const unsigned int&)>>
     Notify::analog_observer_list_;

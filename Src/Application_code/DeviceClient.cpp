@@ -1,4 +1,4 @@
-#include "DeviceClient.hpp"
+#include "Application_code/DeviceClient.hpp"
 
 DeviceClient::DeviceClient(char port, int pin, ApplicationClient *appClient)
     : device(port, pin), oldState(0), itsApplicationClient(appClient) {}

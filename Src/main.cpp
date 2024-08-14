@@ -7,7 +7,7 @@
 
 #include <cinttypes>
 
-#include "AnalogOperation.h"
+#include "Application_code/AnalogOperation.h"
 #include "Examples/ApplyObserver.h"
 
 int main(void) {
@@ -40,7 +40,7 @@ int main(void) {
 #ifdef AMR_ROBOT
 #include <stdint.h>
 
-#include "AMRRobot.hpp"
+#include "Application_code/AMRRobot.hpp"
 
 int main() {
   AMRRobot amr;

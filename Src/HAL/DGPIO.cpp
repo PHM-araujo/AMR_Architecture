@@ -1,6 +1,6 @@
-#include "DGPIO.hpp"
+#include "HAL/DGPIO.hpp"
 
-#include "HAL.hpp"
+#include "HAL/HAL.hpp"
 
 DGPIO::DGPIO(char port, int pin, int mode) : port_(port), pin_(pin), mode_(0) {
   pinMode();

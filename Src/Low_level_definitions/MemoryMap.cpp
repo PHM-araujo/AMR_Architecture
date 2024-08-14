@@ -5,7 +5,7 @@
  *      Author: Pedro
  */
 
-#include "MemoryMap.hpp"
+#include "Low_level_definitions/MemoryMap.hpp"
 
 // Definição dos ponteiros globais para os periféricos
 GPIO_TypeDef* GPIOA = reinterpret_cast<GPIO_TypeDef*>(GPIOA_BASE);

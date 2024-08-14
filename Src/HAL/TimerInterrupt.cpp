@@ -4,11 +4,11 @@
  *  Created on: Jul 9, 2024
  *      Author: Pedro
  */
-#include "TimerInterrupt.hpp"
-#include "HAL.hpp"
-#include "MemoryMap.hpp"
-#include "InterruptManager.hpp"
-#include "Notify/Notify.h"
+#include "HAL/TimerInterrupt.hpp"
+#include "HAL/HAL.hpp"
+#include "Low_level_definitions/MemoryMap.hpp"
+#include "Middleware/InterruptManager.hpp"
+#include "Middleware/Notify.h"
 TimerInterrupt* TimerInterrupt::instance = nullptr;
 std::function<void()> TimerInterrupt::handler = nullptr;
 

@@ -1,10 +1,10 @@
-#include "AnalogOperation.h"
+#include "HAL/AnalogOperation.h"
 
 #include <stdio.h>
 
-#include "HAL.hpp"
-#include "MemoryMap.hpp"
-#include "Notify/Notify.h"
+#include "HAL/HAL.hpp"
+#include "Low_level_definitions/MemoryMap.hpp"
+#include "Middleware/Notify.h"
 
 namespace analog {
 

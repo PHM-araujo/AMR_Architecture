@@ -2,8 +2,8 @@
 CXX := g++
 
 # Directories
-SRC_DIR := Src
-INC_DIR := Inc
+SRC_DIR := Src Application_code HAL Low_level_definitions Middleware
+INC_DIR := Inc 
 EXAMPLES_DIR := Inc/Examples
 BUILD_DIR := .build
 
@@ -11,7 +11,7 @@ BUILD_DIR := .build
 SRC_FILES := $(SRC_DIR)/AnalogOperation.cpp $(SRC_DIR)/Notify.cpp $(SRC_DIR)/main.cpp $(SRC_DIR)/MemoryMap.cpp $(SRC_DIR)/HAL.cpp
 
 # Header directories
-INC_DIRS := -I $(INC_DIR)/Notify -I $(INC_DIR)/Examples -I $(INC_DIR)
+INC_DIRS := -I $(INC_DIR)/Application_code -I $(INC_DIR)/HAL -I $(INC_DIR)/Low_level_definitions -I $(INC_DIR)/Middleware -I $(INC_DIR)/Examples -I $(INC_DIR)
 
 # Output binary
 TARGET := $(BUILD_DIR)/run_example

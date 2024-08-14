@@ -4,7 +4,7 @@
  *  Created on: Jul 9, 2024
  *      Author: Pedro
  */
-#include "InterruptManager.hpp"
+#include "Middleware/InterruptManager.hpp"
 
 std::array<std::function<void()>, 240> InterruptManager::interruptVectorTable = {};
 

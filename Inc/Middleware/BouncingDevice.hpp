@@ -1,7 +1,7 @@
 #ifndef BOUNCINGDEVICE_HPP_
 #define BOUNCINGDEVICE_HPP_
 
-#include "DGPIO.hpp"
+#include "HAL/DGPIO.hpp"
 
 class BouncingDevice
 {
