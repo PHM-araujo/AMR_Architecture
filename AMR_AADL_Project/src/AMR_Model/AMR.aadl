@@ -1,19 +1,76 @@
 package AMR_Model
 public
+	
+-- Declaração do sistema principal AMR
+system AMR
+end AMR;
 
-	-- Definição do sistema principal AMR
-	system AMR
-	end AMR;
+-- Declaração dos sistemas de componentes
+system Mission
+	features
+		toNavigation: out data port;
+	end Mission;
 
-	system implementation AMR.impl
-		subcomponents
-			hw_layer : system HardwareLayerSystem.impl;  -- Encapsulando o hardware
-			hw_abstraction_layer : system HardwareAbstractionLayer.impl;
-			app_layer : system ApplicationLogicLayer.impl;
-			ui_layer : system UserInterfaceAndMonitoringLayer.impl;
-		connections
-			conn1 : port hw_abstraction_layer.debounced_signal -> app_layer.mission_update;
-			conn2 : port app_layer.navigation_cmd -> ui_layer.status_in;
-	end AMR.impl;
+system Navigation
+	features
+		fromMission: in data port;
+		toSafety: out data port;
+	end Navigation;
+
+system Safety
+	features
+		fromNavigation: in data port;
+		toBase: out data port;
+	end Safety;
+
+system BasePlatform
+	features
+		fromSafety: in data port;
+		toDataAnalysis: out data port;
+	end BasePlatform;
+
+system DataAnalysis
+	features
+		fromBase: in data port;
+	end DataAnalysis;
+
+-- Implementação dos sistemas de componentes
+system implementation Mission.impl
+end Mission.impl;
+
+system implementation Navigation.impl
+end Navigation.impl;
+
+system implementation Safety.impl
+end Safety.impl;
+
+system implementation BasePlatform.impl
+end BasePlatform.impl;
+
+system implementation DataAnalysis.impl
+end DataAnalysis.impl;
+
+-- Implementação do sistema AMR
+system implementation AMR.impl
+    subcomponents
+        Mission : system Mission.impl;
+        Navigation : system Navigation.impl;
+        Safety : system Safety.impl;
+        BasePlatform : system BasePlatform.impl;
+        DataAnalysis : system DataAnalysis.impl;
+    
+    connections
+        -- Conexão entre Missão e Navegação
+        conn_mission_navigation : port Mission.toNavigation -> Navigation.fromMission;
+        
+        -- Conexão entre Navegação e Segurança
+        conn_navigation_safety : port Navigation.toSafety -> Safety.fromNavigation;
+        
+        -- Conexão entre Segurança e Plataforma Base
+        conn_safety_base : port Safety.toBase -> BasePlatform.fromSafety;
+        
+        -- Conexão entre Plataforma Base e Análise de Dados
+        conn_base_dataAnalysis : port BasePlatform.toDataAnalysis -> DataAnalysis.fromBase;
+end AMR.impl;
 
 end AMR_Model;
