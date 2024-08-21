@@ -1,0 +1,14 @@
+# Ignorar arquivos temporários do sistema
+*.tmp
+*.bak
+*.swp
+.DS_Store
+
+# Ignorar pastas de configuração do OSATE/Eclipse
+.metadata/
+bin/
+.settings/
+build/
+
+# Ignorar arquivos de backup
+*~

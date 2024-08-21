@@ -1,0 +1,10 @@
+package HardwareLayer
+public
+
+	-- Definição do processador principal
+	processor MainProcessor
+		properties
+			Hardware_Execution_Time => 1 ms .. 2 ms;
+	end MainProcessor;
+
+end HardwareLayer;

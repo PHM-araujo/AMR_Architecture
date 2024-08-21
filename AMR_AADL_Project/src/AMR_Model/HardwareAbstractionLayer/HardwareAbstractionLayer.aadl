@@ -1,0 +1,21 @@
+package HardwareAbstractionLayer
+public
+
+	-- Definição da camada de abstração de hardware
+	system HardwareAbstractionLayer
+		features
+			interrupt_signal : in event port;
+			debounced_signal : out event port;
+	flows
+		f1: flow path interrupt_signal -> debounced_signal;
+	end HardwareAbstractionLayer;
+
+	system implementation HardwareAbstractionLayer.impl
+		subcomponents
+			interrupt_handler : system InterruptHandler.impl;
+			debouncer : system Debouncer.impl;
+		connections
+			conn1 : port interrupt_handler.event_out -> debouncer.event_in;
+	end HardwareAbstractionLayer.impl;
+
+end HardwareAbstractionLayer;

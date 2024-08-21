@@ -1,0 +1,19 @@
+package AMR_Model
+public
+
+	-- Definição do sistema principal AMR
+	system AMR
+	end AMR;
+
+	system implementation AMR.impl
+		subcomponents
+			hw_layer : system HardwareLayerSystem.impl;  -- Encapsulando o hardware
+			hw_abstraction_layer : system HardwareAbstractionLayer.impl;
+			app_layer : system ApplicationLogicLayer.impl;
+			ui_layer : system UserInterfaceAndMonitoringLayer.impl;
+		connections
+			conn1 : port hw_abstraction_layer.debounced_signal -> app_layer.mission_update;
+			conn2 : port app_layer.navigation_cmd -> ui_layer.status_in;
+	end AMR.impl;
+
+end AMR_Model;

@@ -1,0 +1,16 @@
+package ApplicationLogicLayer
+public
+
+	-- Definição do gerenciador de notificações
+	system NotifyManager
+		features
+			event_in : in event port;
+			event_out : out event port;
+	end NotifyManager;
+
+	system implementation NotifyManager.impl
+		properties
+			Compute_Execution_Time => 1 ms..2 ms;
+	end NotifyManager.impl;
+
+end ApplicationLogicLayer;

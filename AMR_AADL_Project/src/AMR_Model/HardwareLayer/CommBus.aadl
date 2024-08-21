@@ -1,0 +1,10 @@
+package HardwareLayer
+public
+
+	-- Definição do barramento de comunicação
+	bus CommBus
+		properties
+			Bandwidth => 100 Mbps;
+	end CommBus;
+
+end HardwareLayer;

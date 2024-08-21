@@ -1,0 +1,17 @@
+package ApplicationLogicLayer
+public
+
+	-- Definição do sistema de segurança
+	system SafetySystem
+		features
+			cmd_in : in event port;
+			safe_cmd_out : out event port;
+	end SafetySystem;
+
+	system implementation SafetySystem.impl
+		properties
+			Period => 20 ms;
+			Compute_Execution_Time => 5 ms..10 ms;
+	end SafetySystem.impl;
+
+end ApplicationLogicLayer;

@@ -1,0 +1,17 @@
+package ApplicationLogicLayer
+public
+
+	-- Definição do sistema de navegação
+	system NavigationSystem
+		features
+			cmd_in : in event port;
+			cmd_out : out event port;
+	end NavigationSystem;
+
+	system implementation NavigationSystem.impl
+		properties
+			Period => 50 ms;
+			Compute_Execution_Time => 20 ms..30 ms;
+	end NavigationSystem.impl;
+
+end ApplicationLogicLayer;

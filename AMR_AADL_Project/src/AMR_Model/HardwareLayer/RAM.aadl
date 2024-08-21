@@ -1,0 +1,10 @@
+package HardwareLayer
+public
+
+	-- Definição da memória
+	memory RAM
+		properties
+			Storage_Capacity => 1024 MBytes;
+	end RAM;
+
+end HardwareLayer;
