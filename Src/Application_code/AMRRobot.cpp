@@ -4,7 +4,8 @@
  *  Created on: Jul 2, 2024
  *      Author: Pedro
  */
-#include "AMRRobot.hpp"
+#include "Application_code/AMRRobot.hpp"
+
 
 AMRRobot::AMRRobot() {
 	// Inicializar váriaveis e afins
@@ -14,9 +15,8 @@ AMRRobot::AMRRobot() {
 
 void AMRRobot::Init() {
 	// Inicializar componentes
-	interrupt.init();
 	// dpgpio = new DGPIO();
-
+	interrupt_operation.init();
 }
 
 void AMRRobot::Run() {

@@ -1,0 +1,3 @@
+[submodule "AMR_modelling"]
+	path = AMR_modelling
+	url = https://github.com/PHM-araujo/AMR_modelling.git
